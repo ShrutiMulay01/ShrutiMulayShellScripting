@@ -46,20 +46,20 @@ drwxr-xr-x. 2 admin admin  6 Aug 25  2022 Videos
 
          8.  Give   appropriate   command   to   create   a   directory   called   C_prog   under   your   home 
              directory. (Note: Check the directory using ls ) 
-[admin@hostname01 ~]$ mkdir ~C_prog
+[admin@hostname01 ~]$ mkdir ~/C_prog
 
          9.  Create the following directories under your home directory. (Note: Check using ls ) 
              newdir 
              newdirectory 
 [admin@hostname01 ~]$ mkdir ~/newdirectory ~/newdir
 [admin@hostname01 ~]$ ls
-   '~C_prog'   Desktop   Documents   Downloads   Music   newdir   newdirectory   Pictures   Public   Templates   	Videos
+   C_prog   Desktop   Documents   Downloads   Music   newdir   newdirectory   Pictures   Public   Templates   	Videos
 
          10. List the names of all the files, including the contents of the sub directories under 
              your home directory.
 [admin@hostname01 ~]$ ls -R ~
-  '~C_prog'   Desktop   Documents   Downloads   Music   newdir   newdirectory   Pictures   Public   Templates   Videos
-  /home/admin/~C_prog:
+  C_prog   Desktop   Documents   Downloads   Music   newdir   newdirectory   Pictures   Public   Templates   Videos
+  /home/admin/C_prog:
 
 /home/admin/Desktop:
 
@@ -82,18 +82,18 @@ photo-1603366615917-1fa6dad5c4fa.jpg
 
          11. Remove the directory called newdirectory from your working directory. 
 [admin@hostname01 ~]$ rmdir newdirectory
-    '~C_prog'   Desktop   Documents   Downloads   Music   newdir   Pictures   Public   Templates   Videos
+    C_prog   Desktop   Documents   Downloads   Music   newdir   Pictures   Public   Templates   Videos
 
          12. Create a directory called temp under your home directory.
 [admin@hostname01 ~]$ mkdir ~/temp
-    '~C_prog'   Desktop   Documents   Downloads   Music   newdir   Pictures   Public   temp   Templates   Videos
+    C_prog   Desktop   Documents   Downloads   Music   newdir   Pictures   Public   temp   Templates   Videos
 
 [admin@hostname01 ~]$ rmdir ~/newdir
 
          13. Remove   the   directory   called   newdir   under   your   home   directory   and   verify   the 
               above with the help of the directory listing command. 
 [admin@hostname01 ~]$ ls
-    '~C_prog'   Desktop   Documents   Downloads   Music   Pictures   Public   temp   Templates   Videos
+    C_prog   Desktop   Documents   Downloads   Music   Pictures   Public   temp   Templates   Videos
 
           14. Create another directory directorynew under the temp directory. 
 [admin@hostname01 ~]$ mkdir ~/temp/directorynew
@@ -103,7 +103,7 @@ photo-1603366615917-1fa6dad5c4fa.jpg
 
           16. From your home directory, change the directory to directorynew using relative and 
               absolute path. 
-[admin@hostname01 ~]$ cd ../directorynew
+[admin@hostname01 ~]$ cd temp/directorynew
 [admin@hostname01 ~]$ cd ~/directorynew
 
           17. Remove the directory called c_prog, which is in your home directory. 
@@ -134,7 +134,7 @@ Hi! Good Morning everybody.Welcome to the first exercise on UNIX Hope you enjoy 
 [admin@hostname01 ~]$ cp ~/first.unix ~/first.unics
 
           22. List the contents of first.unix and first.unics with a single command. 
-[admin@hostname01 ~]$ cat ~/first.unix ~/first,unics
+[admin@hostname01 ~]$ cat ~/first.unix ~/first.unics
 Hi! Good Morning everybody. 
 Welcome to the First exercise on UNIX. 
 Hope you enjoy doing the assignments. 
@@ -144,7 +144,7 @@ Hope you enjoy doing the assignments.
 
          24. From   your   home   directory,   copy   all   the   files   to   the   directory   created   under   the 
               temp sub directory. 
-[admin@hostname01 ~]$ cp ~/*temp/newdir1
+[admin@hostname01 ~]$ cp ~/* ~/temp/newdir1
 
           25. Move the file first.unix to the directory temp as second.unix 
 [admin@hostname01 ~]$ mv ~/first.unix temp/second.unix
@@ -154,13 +154,14 @@ Hope you enjoy doing the assignments.
 
           27. Change your directory to temp and issue the command rm *.                What do you observe? 
 [admin@hostname01 ~]$ cd temp
- [admin@hostname01 temp]$ rm*
+ [admin@hostname01 temp]$ rm *
+
 rm: cannot remove '*.': No such file or directory
           28. Move all files whose names end with a, c and o to the HOME directory. 
 [admin@hostname01 temp]$ mv *[aco]~
 
           29. Copy all files that end with a ‘UNIX’ to the temp directory. 
-[admin@hostname01 temp]$ cp *UNIX temp/
+[admin@hostname01 temp]$ cp *UNIX ~/temp/
 
           30. Issuing   a   single   command,   remove   all   the   files   from   the   directory   temp   and the 
               directory itself. 
@@ -269,7 +270,9 @@ Using Pipes and Filters:
 
           1: Redirect the content of the help document ls, into a file called as lsdoc. 
 [admin@hostname01 Desktop]$ ls --help > lsdoc
+
           2: Display the content of the lsdoc page wise. 
+[admin@hostname01 Desktop]$ more lsdoc
 
           3: Create a file data.txt using input redirection. 
 [admin@hostname01 Desktop]$ cat > data.txt
