@@ -1,0 +1,287 @@
+
+         1.  To display the current working directory, the command is: 
+             pwd 
+             The output is as follows. 
+             /home/trg1 
+
+[admin@hostname01 ~]$ pwd
+/home/admin
+
+         2.  Display the path to and name of your HOME directory. 
+[admin@hostname01 ~]$ echo $HOME
+/home/admin
+
+         3.  Display the login name using which you have logged into the system 
+[admin@hostname01 ~]$ whoami
+admin
+
+         4.  Display the hidden files of your current directory. 
+[admin@hostname01 ~]$ ls -a
+.              .bash_profile  Desktop    .mozilla  Templates
+..             .bashrc        Documents  Music     Videos
+.bash_history  .cache         Downloads  Pictures
+.bash_logout   .config        .local     Public
+
+         5.  List the names of all the files in your home directory. 
+[admin@hostname01 ~]$ ls $HOME
+   Output: Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos
+
+         6.  Using the long listing format to display the files in your directory. 
+[admin@hostname01 ~]$ ls -l
+total 0
+drwxr-xr-x. 2 admin admin  6 Dec 24 19:53 Desktop
+drwxr-xr-x. 2 admin admin  6 Aug 25  2022 Documents
+drwxr-xr-x. 2 admin admin 50 Aug 25  2022 Downloads
+drwxr-xr-x. 2 admin admin  6 Aug 25  2022 Music
+drwxr-xr-x. 2 admin admin  6 Aug 25  2022 Pictures
+drwxr-xr-x. 2 admin admin  6 Aug 25  2022 Public
+drwxr-xr-x. 2 admin admin  6 Aug 25  2022 Templates
+drwxr-xr-x. 2 admin admin  6 Aug 25  2022 Videos
+
+
+         7.  List   the files beginning with chap   followed   by any number    or any lower  case 
+             alphabet.   (Example , it should display all files whose names are like  chap1,  chap2, 
+             chap3 ……., chapa,ahapb,chapc,……..) 
+
+
+         8.  Give   appropriate   command   to   create   a   directory   called   C_prog   under   your   home 
+             directory. (Note: Check the directory using ls ) 
+[admin@hostname01 ~]$ mkdir ~C_prog
+
+         9.  Create the following directories under your home directory. (Note: Check using ls ) 
+             newdir 
+             newdirectory 
+[admin@hostname01 ~]$ mkdir ~/newdirectory ~/newdir
+[admin@hostname01 ~]$ ls
+   '~C_prog'   Desktop   Documents   Downloads   Music   newdir   newdirectory   Pictures   Public   Templates   	Videos
+
+         10. List the names of all the files, including the contents of the sub directories under 
+             your home directory.
+[admin@hostname01 ~]$ ls -R ~
+  '~C_prog'   Desktop   Documents   Downloads   Music   newdir   newdirectory   Pictures   Public   Templates   Videos
+  /home/admin/~C_prog:
+
+/home/admin/Desktop:
+
+/home/admin/Documents:
+
+/home/admin/Downloads:
+photo-1603366615917-1fa6dad5c4fa.jpg
+
+/home/admin/Music:
+
+/home/admin/newdir:
+
+/home/admin/newdirectory:
+
+/home/admin/Pictures:
+
+/home/admin/Public:
+
+/home/admin/Templates:
+
+         11. Remove the directory called newdirectory from your working directory. 
+[admin@hostname01 ~]$ rmdir newdirectory
+    '~C_prog'   Desktop   Documents   Downloads   Music   newdir   Pictures   Public   Templates   Videos
+
+         12. Create a directory called temp under your home directory.
+[admin@hostname01 ~]$ mkdir ~/temp
+    '~C_prog'   Desktop   Documents   Downloads   Music   newdir   Pictures   Public   temp   Templates   Videos
+
+[admin@hostname01 ~]$ rmdir ~/newdir
+
+         13. Remove   the   directory   called   newdir   under   your   home   directory   and   verify   the 
+              above with the help of the directory listing command. 
+[admin@hostname01 ~]$ ls
+    '~C_prog'   Desktop   Documents   Downloads   Music   Pictures   Public   temp   Templates   Videos
+
+          14. Create another directory directorynew under the temp directory. 
+[admin@hostname01 ~]$ mkdir ~/temp/directorynew
+
+          15. Change the directory to your home directory. 
+[admin@hostname01 ~]$ cd ~
+
+          16. From your home directory, change the directory to directorynew using relative and 
+              absolute path. 
+[admin@hostname01 ~]$ cd ../directorynew
+[admin@hostname01 ~]$ cd ~/directorynew
+
+          17. Remove the directory called c_prog, which is in your home directory. 
+[admin@hostname01 ~]$ rmdir ~/C_prog
+
+          18. Change to the directory /etc and display the files present in it. 
+[admin@hostname01 ~]$ cd /etc
+[admin@hostname01 etc]$ ls
+accountsservice         crypto-policies          gcrypt        libaudit.conf             nftables           resolv.conf        sysconfig
+adjtime                 crypttab                 gdm           libblockdev               nsswitch.conf      rpc                sysctl.conf
+aliases                 csh.cshrc                geoclue       libibverbs.d              nsswitch.conf.bak  rpm                sysctl.d
+alsa                    csh.login                glvnd         libnl                     nvme               rsyncd.conf        systemd
+alternatives            cups                     gnupg         libpaper.d                openldap           rsyslog.conf       system-	release
+
+          19. List the names of all the files that begin with a dot in the /usr/bin directory. 
+[admin@hostname01 ~]$ ls -a /usr/bin directory | grep'^\.'
+
+          20. Create a file first.unix with the following contents. 
+              Hi! Good Morning everybody. 
+              Welcome to the First exercise on UNIX. 
+              Hope you enjoy doing the assignments. 
+[admin@hostname01 etc]$ touch first.unix
+[admin@hostname01 etc]$ echo "Hi ! Good morning everybody. Welcome to the first exercise on UNIX. Hope you enjoy doing the assignments."
+Hi! Good Morning everybody.Welcome to the first exercise on UNIX Hope you enjoy doing the assignments
+
+          21. Copy the file first.unix in your home directory to first.unics. 
+              (Note: checked using ls, first.unix file also should exist along with first.unics) 
+[admin@hostname01 ~]$ cp ~/first.unix ~/first.unics
+
+          22. List the contents of first.unix and first.unics with a single command. 
+[admin@hostname01 ~]$ cat ~/first.unix ~/first,unics
+Hi! Good Morning everybody. 
+Welcome to the First exercise on UNIX. 
+Hope you enjoy doing the assignments. 
+
+          23. Create a new directory under the temp directory.
+[admin@hostname01 ~]$ mkdir temp/newdir1
+
+         24. From   your   home   directory,   copy   all   the   files   to   the   directory   created   under   the 
+              temp sub directory. 
+[admin@hostname01 ~]$ cp ~/*temp/newdir1
+
+          25. Move the file first.unix to the directory temp as second.unix 
+[admin@hostname01 ~]$ mv ~/first.unix temp/second.unix
+
+          26. Remove the file called first.unics from the home directory. 
+[admin@hostname01 ~]$ rm first.unics
+
+          27. Change your directory to temp and issue the command rm *.                What do you observe? 
+[admin@hostname01 ~]$ cd temp
+ [admin@hostname01 temp]$ rm*
+rm: cannot remove '*.': No such file or directory
+          28. Move all files whose names end with a, c and o to the HOME directory. 
+[admin@hostname01 temp]$ mv *[aco]~
+
+          29. Copy all files that end with a ‘UNIX’ to the temp directory. 
+[admin@hostname01 temp]$ cp *UNIX temp/
+
+          30. Issuing   a   single   command,   remove   all   the   files   from   the   directory   temp   and the 
+              directory itself. 
+[admin@hostname01 temp]$ rm -rf temp
+
+          31. Try commands cp and mv with invalid number of arguments and note the results.
+[admin@hostname01 temp]$ cp
+[admin@hostname01 temp]$ mv
+
+          32. Use the cat command to create a file friends, with the following data: 
+
+                  Madhu              6966456                  09/07/68 
+                  Jamil              2345215                  08/09/67 
+                  Ajay               5546785                  01/04/66 
+                  Mano               7820022                  09/07/68 
+                  David              8281292                  09/09/60 
+                  Simmi              7864563                  12/12/70 
+                  Navin              2224311                  30/05/68 
+
+            The fields should be separated by a tab. 
+
+
+[admin@hostname01 Desktop]$ cat > friends 
+Madhu              6966456               09/07/68 
+Jamil              2345215               08/09/67 
+Ajay               5546785               01/04/66 
+Mano               7820022               09/07/68 
+David              8281292               09/09/60 
+Simmi              7864563               12/12/70 
+Navin              2224311               30/05/68 
+
+         33. Display contents of the file friends. 
+[admin@hostname01 Desktop]$ cat > friends 
+Madhu	  6966456	 09/07/68
+Jamil		2345215	 08/09/67
+Ajay		5546785	 01/04/66
+Mano		7820022  09/07/68
+David		8281292  09/09/60
+Simmi 	7864563	 12/12/70
+Navin 	2224311  30/05/58
+
+         34. Copy contents of friends to newfriend without using the cp command. 
+[admin@hostname01 Desktop]$ cat friends > newfriends
+         35. Display contents of the file friends and newfriends in a single command. 
+[admin@hostname01 Desktop]$ cat friends newfriends
+ Madhu	 6966456	09/07/68
+ Jamil	 2345215	08/09/67
+ Ajay	   5546785	01/04/66
+ Mano		 7820022 	09/07/68
+ David	 8281292 	09/09/60
+ Simmi 	 7864563	12/12/70
+ Navin 	 2224311 	30/05/58
+ Madhu	 6966456	09/07/68
+ Jamil	 2345215	08/09/67
+ Ajay		 5546785	01/04/66
+ Mano		 7820022 	09/07/68
+ David	 8281292 	09/09/60
+ Simmi 	 7864563	12/12/70
+ Navin 	2224311 	30/05/58
+
+        36. Find all users currently working on the system and store the output in a file named 
+             as users. 
+[admin@hostname01 Desktop]$ who > users
+[admin@hostname01 Desktop]$ cat users
+admin    seat0        2025-01-27 12:15 (login screen)
+admin    tty2         2025-01-27 12:15 (tty2)
+
+        37. Append contents of friends file to the file, users. 
+[admin@hostname01 Desktop]$ cat friends >> users
+
+        38. Display   current   system   date   and   time   and   record   your   observations. How   is   the 
+             time displayed? 
+[admin@hostname01 Desktop]$ date
+Mon Jan 27 10:03:06 PM IST 2025
+       39. Display calendar for the month and year of your birth.
+[admin@hostname01 Desktop]$ cal 02 2002
+      February 2002      
+Su Mo Tu We Th Fr Sa
+                1  2
+ 3  4  5  6  7  8  9
+10 11 12 13 14 15 16
+17 18 19 20 21 22 23
+24 25 26 27 28  
+
+       40. Try following commands and record your observations. 
+             date “+ %” 
+             date “+%m” 
+             date “+%D” 
+             date “+%/%Training Activity” 
+             date “+%Training Activity” 
+             date “+%r”
+[admin@hostname01 Desktop]$ date "+%"
+%
+[admin@hostname01 Desktop]$ date "+%m"
+01
+[admin@hostname01 Desktop]$ date "+%D"
+01/27/25
+[admin@hostname01 Desktop]$ date "+%/%Training Activity"
+%/22:20:42raining Activity
+[admin@hostname01 Desktop]$ date "+%Training Activity"
+22:21:03raining Activity
+[admin@hostname01 Desktop]$ date "+%r"
+10:21:15 PM
+
+Using Pipes and Filters: 
+
+          1: Redirect the content of the help document ls, into a file called as lsdoc. 
+[admin@hostname01 Desktop]$ ls --help > lsdoc
+          2: Display the content of the lsdoc page wise. 
+
+          3: Create a file data.txt using input redirection. 
+[admin@hostname01 Desktop]$ cat > data.txt
+Hello World
+          4: Display data.txt. 
+[admin@hostname01 Desktop]$ cat data.txt
+Hello World
+          5: Remove the file data.txt. 
+[admin@hostname01 Desktop]$ rm data.txt
+
+          6: Use error redirection to display data.txt, if any error stores it in errorlog.txt 
+[admin@hostname01 Desktop]$ cat data.txt 2>errorlog.txt
+
+          7: Display errorlog file.
+[admin@hostname01 Desktop]$ cat errorlog.txt
