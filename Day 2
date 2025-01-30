@@ -1,0 +1,560 @@
+         1: Create a file using vi. Enter the following text:
+A network is a group of computers that can communicate with each other, share
+resources, and access remote hosts or other networks. Netware is a computer network operating system designed to connect, manage, and maintain a network and its services. 
+Some of the network services are Netware Directory Services (NDS), file system, printing and security.
+[root@hostname01 ~]# vi network.txt
+
+        a. Change the word “Netware” in the second line to “Novell Netware”.
+        b. Insert the text “(such as hard disks and printers)” after “share resources” in the first line.
+        c. Append the following text to the file: “Managing NDS is a fundamental administrator role because NDS provides a single 
+          point for accessing and managing most network resources.”
+        
+
+Working shell
+1. Type some text on the shell separated by space
+[root@hostname01 ~]# Hey Welcome to SHELL
+
+            1: Move cursor one word back- cntrl + b
+            
+            2: Move cursor one word forward- cntrl + f
+            
+            3: Move cursor to the first character- cntrl + a
+            
+            4: Move cursor to the end- cntrl + e
+            
+            5: Delete test from second word to last character- cntrl + k
+            
+            6: Delete the current line- cntrl + u
+
+
+2: In lab 4 we have created a file errorlog.txt. Display it using cat command usingcommand completion.
+[root@hostname01 ~]# cat errorlog.txt
+cat: errorlog.txt: No such file or directory
+
+
+3: Display history of command used so far.
+[root@hostname01 ~]# history
+    1  ls -l
+    2  ls
+    3  ls -l
+    4  ls -al
+    5  clear
+    6  vi network.txt
+    7  Hey Welcome to SHELL
+    8  cat errorlog.txt
+    9  history
+
+
+4: Search ls command in history file
+[root@hostname01 ~]# history | grep ls
+    1  ls -l
+    2  ls
+    3  ls -l
+    4  ls -al
+   10  history | grep ls
+   
+
+
+5: Repeat the last command rd
+[root@hostname01 ~]# !!
+    1  ls -l
+    2  ls
+    3  ls -l
+    4  ls -al
+   10  history | grep ls
+
+
+6: Execute 3 command from history file.
+[root@hostname01 ~]# !3
+ls -l
+total 4
+-rw-------. 1 root root 1005 Jan 29 14:39 anaconda-ks.cfg
+
+
+7: What are the different shells available.
+[root@hostname01 ~]# cat /etc/shells
+/bin/sh
+/bin/bash
+/usr/bin/sh
+/usr/bin/bash
+
+Understanding access permissions
+
+7.1: Create an empty file “demofile” and perform following instruction
+[root@hostname01 ~]# touch demofile
+
+1. Revoke read permission from owner and use cat command
+[root@hostname01 ~]# chmod u-r demofile
+[root@hostname01 ~]# cat demofile
+[root@hostname01 ~]# ls -l demofile
+--w-r--r--. 1 root root 0 Jan 30 21:22 demofile
+
+2. Revoke write permission from owner and open using vi editor and add some contain in it.
+[root@hostname01 ~]# chmod u-w demofile
+[root@hostname01 ~]# vi demofile
+
+3. Add read and write permission to owner.
+[root@hostname01 ~]# chmod u+rw demofile
+
+4. Revoke write and execute from other and group
+[root@hostname01 ~]# chmod go-wx demofile
+
+5. Add write permission to group only
+[root@hostname01 ~]# chmod g+w demofile
+
+6. Assign read permission to all
+[root@hostname01 ~]# chmod a+r demofile
+
+7. Revoke read permission from others
+[root@hostname01 ~]# chmod o-r demofile
+
+8. Give the execute permission for the user for a file chap
+[root@hostname01 ~]# touch chap1
+[root@hostname01 ~]# chmod u+x chap1
+
+9. Give the execute permission for user, group and others for a file add.c
+[root@hostname01 ~]# touch aa.c
+[root@hostname01 ~]# chmod a+x aa.c
+
+
+10. Remove the execute permission from user, give read permission to group and others for a file aa.c
+[root@hostname01 ~]# chmod u-x,g+r,o+r aa.c
+
+11. Give execute permission for users for a.c, kk.c, nato and myfile using single command
+[root@hostname01 ~]# chmod u+x kk.s nato myfile
+chmod: cannot access 'kk.s': No such file or directory
+chmod: cannot access 'nato': No such file or directory
+chmod: cannot access 'myfile': No such file or directory
+[root@hostname01 ~]# chmod u+x a.c kk.c nato myfile
+chmod: cannot access 'a.c': No such file or directory
+chmod: cannot access 'kk.c': No such file or directory
+chmod: cannot access 'nato': No such file or directory
+chmod: cannot access 'myfile': No such file or directory
+[root@hostname01 ~]# logout
+
+7.2: Create an directory “demo” and copy /etc/passwd file in it
+[admin@hostname01 ~]$ mkdir demo
+[admin@hostname01 ~]$ cp /etc/passwd demo/
+
+1. Display contents of dem
+[admin@hostname01 ~]$ ls demo
+passwd
+
+2. Revoke read permission from demo directory and use ls command on it
+[admin@hostname01 ~]$ chmod -r demo
+[admin@hostname01 ~]$ ls demo
+ls: cannot open directory 'demo': Permission denied
+
+3. Revoke write permission from demo directory and try to copy /etc/profile file in it
+[admin@hostname01 ~]$ chmod -w demo
+[admin@hostname01 ~]$ cp /etc/profile demo/
+cp: cannot create regular file 'demo/profile': Permission denied
+[admin@hostname01 ~]$ chmod +w demo
+[admin@hostname01 ~]$ cp /etc/profile demo/
+
+4. Delete passwd file from demo directory
+[admin@hostname01 ~]$ rm demo/passwd
+
+5. Revoke execute permission from demo directory and try cd command on demo
+[admin@hostname01 ~]$ chmod -x demo
+[admin@hostname01 ~]$ cd demo
+-bash: cd: demo: Permission denied
+
+
+
+Using Process-Related Commands
+
+1. Find out the PID of the processes that are activated by you
+[admin@hostname01 ~]$ ps -u $USER
+    PID TTY          TIME CMD
+   1897 ?        00:00:00 systemd
+   1899 ?        00:00:00 (sd-pam)
+   1914 ?        00:00:00 gnome-keyring-d
+   1918 tty2     00:00:00 gdm-wayland-ses
+   1921 ?        00:00:00 dbus-broker-lau
+   1923 ?        00:00:00 dbus-broker
+   1925 tty2     00:00:00 gnome-session-b
+   1962 ?        00:00:00 gnome-session-c
+   1964 ?        00:00:00 gnome-session-b
+   1981 ?        00:01:16 gnome-shell
+   1989 ?        00:00:00 gvfsd
+   1994 ?        00:00:00 gvfsd-fuse
+   2001 ?        00:00:00 at-spi-bus-laun
+   2007 ?        00:00:00 dbus-broker-lau
+   2008 ?        00:00:00 dbus-broker
+   2013 ?        00:00:00 xdg-permission-
+   2014 ?        00:00:00 gnome-shell-cal
+   2034 ?        00:00:00 evolution-sourc
+   2043 ?        00:00:00 goa-daemon
+   2049 ?        00:00:00 evolution-calen
+   2050 ?        00:00:01 pipewire
+   2051 ?        00:00:00 wireplumber
+   2052 ?        00:00:00 pipewire-pulse
+   2070 ?        00:00:01 goa-identity-se
+   2093 ?        00:00:00 dconf-service
+   2103 ?        00:00:00 evolution-addre
+   2104 ?        00:00:00 gvfs-udisks2-vo
+   2111 ?        00:00:00 gvfs-mtp-volume
+   2123 ?        00:00:00 gvfs-gphoto2-vo
+   2136 ?        00:00:00 gvfs-goa-volume
+   2146 ?        00:00:00 gjs
+   2148 ?        00:00:00 at-spi2-registr
+   2159 ?        00:00:00 gsd-a11y-settin
+   2161 ?        00:00:00 gsd-color
+   2162 ?        00:00:00 gsd-datetime
+   2163 ?        00:00:00 gsd-housekeepin
+   2165 ?        00:00:00 gsd-keyboard
+   2166 ?        00:00:00 gsd-media-keys
+   2167 ?        00:00:00 gsd-power
+   2170 ?        00:00:00 gsd-print-notif
+   2172 ?        00:00:00 gsd-rfkill
+   2174 ?        00:00:00 gsd-screensaver
+   2178 ?        00:00:00 gsd-sharing
+   2179 ?        00:00:01 gsd-smartcard
+   2182 ?        00:00:00 gsd-sound
+   2186 ?        00:00:00 gsd-usb-protect
+   2190 ?        00:00:00 gsd-wacom
+   2240 ?        00:00:00 gsd-disk-utilit
+   2244 ?        00:00:09 gnome-software
+   2252 ?        00:00:22 vmtoolsd
+   2254 ?        00:00:00 evolution-alarm
+   2300 ?        00:00:00 gjs
+   2306 ?        00:00:00 gsd-printer
+   2384 ?        00:00:00 Xwayland
+   2459 ?        00:00:04 ibus-daemon
+   2460 ?        00:00:00 gsd-xsettings
+   2465 ?        00:00:00 xdg-desktop-por
+   2470 ?        00:00:00 xdg-document-po
+   2480 ?        00:00:00 xdg-desktop-por
+   2497 ?        00:00:00 ibus-dconf
+   2498 ?        00:00:02 ibus-extension-
+   2500 ?        00:00:00 ibus-x11
+   2501 ?        00:00:00 ibus-portal
+   2536 ?        00:00:01 ibus-engine-sim
+   2537 ?        00:00:00 xdg-desktop-por
+   2726 ?        00:00:00 gvfsd-metadata
+   3423 ?        00:00:08 gnome-terminal-
+   3807 pts/1    00:00:00 bash
+   3912 pts/1    00:00:00 bash
+   4151 pts/1    00:00:00 bash
+   4184 pts/1    00:00:00 bash
+   4726 pts/1    00:00:00 ps
+
+
+2. Find out the information about all the processes that are currently active
+[admin@hostname01 ~]$ ps aux
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.2 108372 18204 ?        Ss   16:32   0:03 /usr/lib/systemd/systemd rhgb --switched-root --system --d
+root           2  0.0  0.0      0     0 ?        S    16:32   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        S    16:32   0:00 [pool_workqueue_]
+root           4  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-rcu_g]
+root           5  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-sync_]
+root           6  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-slub_]
+root           7  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-netns]
+root           8  0.0  0.0      0     0 ?        I    16:32   0:04 [kworker/0:0-events_freezable_pwr_ef]
+root           9  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/0:0H-kblockd]
+root          11  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-mm_pe]
+root          13  0.0  0.0      0     0 ?        I    16:32   0:00 [rcu_tasks_kthre]
+root          14  0.0  0.0      0     0 ?        I    16:32   0:00 [rcu_tasks_rude_]
+root          15  0.0  0.0      0     0 ?        I    16:32   0:00 [rcu_tasks_trace]
+root          16  0.0  0.0      0     0 ?        S    16:32   0:00 [ksoftirqd/0]
+root          17  0.0  0.0      0     0 ?        I    16:32   0:00 [rcu_preempt]
+root          18  0.0  0.0      0     0 ?        S    16:32   0:00 [rcu_exp_par_gp_]
+root          19  0.0  0.0      0     0 ?        S    16:32   0:00 [rcu_exp_gp_kthr]
+root          20  0.0  0.0      0     0 ?        S    16:32   0:00 [migration/0]
+root          21  0.0  0.0      0     0 ?        S    16:32   0:00 [idle_inject/0]
+root          23  0.0  0.0      0     0 ?        S    16:32   0:00 [cpuhp/0]
+root          25  0.0  0.0      0     0 ?        S    16:32   0:00 [kdevtmpfs]
+root          26  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-inet_]
+root          27  0.0  0.0      0     0 ?        S    16:32   0:00 [kauditd]
+root          28  0.0  0.0      0     0 ?        S    16:32   0:00 [khungtaskd]
+root          30  0.0  0.0      0     0 ?        S    16:32   0:00 [oom_reaper]
+root          31  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-write]
+root          32  0.0  0.0      0     0 ?        S    16:32   0:00 [kcompactd0]
+root          33  0.0  0.0      0     0 ?        SN   16:32   0:00 [ksmd]
+root          34  0.0  0.0      0     0 ?        SN   16:32   0:05 [khugepaged]
+root          35  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-crypt]
+root          36  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-kinte]
+root          37  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-kbloc]
+root          38  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/9-acpi]
+root          39  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-tpm_d]
+root          40  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-md]
+root          41  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-md_bi]
+root          42  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-edac-]
+root          43  0.0  0.0      0     0 ?        S    16:32   0:00 [watchdogd]
+root          45  0.0  0.0      0     0 ?        S    16:32   0:00 [kswapd0]
+root          50  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-kthro]
+root          54  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/24-pciehp]
+root          55  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/25-pciehp]
+root          56  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/26-pciehp]
+root          57  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/27-pciehp]
+root          58  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/28-pciehp]
+root          59  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/29-pciehp]
+root          60  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/30-pciehp]
+root          61  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/31-pciehp]
+root          62  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/32-pciehp]
+root          63  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/33-pciehp]
+root          64  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/34-pciehp]
+root          65  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/35-pciehp]
+root          66  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/36-pciehp]
+root          67  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/37-pciehp]
+root          68  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/38-pciehp]
+root          69  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/39-pciehp]
+root          70  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/40-pciehp]
+root          71  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/41-pciehp]
+root          72  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/42-pciehp]
+root          73  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/43-pciehp]
+root          74  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/44-pciehp]
+root          75  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/45-pciehp]
+root          76  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/46-pciehp]
+root          77  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/47-pciehp]
+root          78  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/48-pciehp]
+root          79  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/49-pciehp]
+root          80  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/50-pciehp]
+root          81  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/51-pciehp]
+root          82  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/52-pciehp]
+root          83  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/53-pciehp]
+root          84  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/54-pciehp]
+root          85  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/55-pciehp]
+root          86  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-acpi_]
+root          87  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-kmpat]
+root          88  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-kalua]
+root          90  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-mld]
+root          91  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-ipv6_]
+root         101  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-kstrp]
+root         105  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/u513:0-ttm]
+root         422  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-mpt_p]
+root         423  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-mpt/0]
+root         426  0.0  0.0      0     0 ?        S    16:32   0:00 [scsi_eh_0]
+root         427  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-scsi_]
+root         428  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-ata_s]
+root         430  0.0  0.0      0     0 ?        S    16:32   0:00 [scsi_eh_1]
+root         431  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-scsi_]
+root         432  0.0  0.0      0     0 ?        S    16:32   0:00 [scsi_eh_2]
+root         433  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-scsi_]
+root         439  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/0:2H-kblockd]
+root         471  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/16-vmwgfx]
+root         472  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-ttm]
+root         515  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-kdmfl]
+root         522  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-kdmfl]
+root         541  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfsal]
+root         542  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfs_m]
+root         543  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfs-b]
+root         544  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfs-c]
+root         545  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfs-r]
+root         546  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfs-b]
+root         547  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfs-i]
+root         548  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfs-l]
+root         549  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfs-c]
+root         550  0.0  0.0      0     0 ?        S    16:32   0:00 [xfsaild/dm-0]
+root         621  0.0  0.1  28336 11904 ?        Ss   16:32   0:00 /usr/lib/systemd/systemd-journald
+root         637  0.0  0.0 152424  3200 ?        Ssl  16:32   0:00 vmware-vmblock-fuse /run/vmblock-fuse -o rw,subtype=vmware
+root         640  0.0  0.1  37972 13144 ?        Ss   16:32   0:00 /usr/lib/systemd/systemd-udevd
+root         703  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/56-vmw_vmci]
+root         704  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/57-vmw_vmci]
+root         705  0.0  0.0      0     0 ?        S    16:32   0:00 [irq/58-vmw_vmci]
+root         726  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfs-b]
+root         727  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfs-c]
+root         728  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfs-r]
+root         729  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfs-b]
+root         730  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfs-i]
+root         731  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfs-l]
+root         732  0.0  0.0      0     0 ?        I<   16:32   0:00 [kworker/R-xfs-c]
+root         733  0.0  0.0      0     0 ?        S    16:32   0:00 [xfsaild/sda1]
+root         739  0.0  0.0  92760  4680 ?        S<sl 16:32   0:00 /sbin/auditd
+root         741  0.0  0.0   7824  3456 ?        S<   16:32   0:00 /usr/sbin/sedispatch
+dbus         767  0.0  0.0  10860  4808 ?        Ss   16:32   0:00 /usr/bin/dbus-broker-launch --scope system --audit
+dbus         768  0.0  0.0   9736  5424 ?        S    16:32   0:00 dbus-broker --log 4 --controller 9 --machine-id 6696a6471b
+avahi        769  0.0  0.0  16596  6784 ?        Ss   16:32   0:00 avahi-daemon: running [linux.local]
+libstor+     771  0.0  0.0   2704  1792 ?        Ss   16:32   0:00 /usr/bin/lsmd -d
+root         772  0.0  0.0   2820  1920 ?        Ss   16:32   0:00 /usr/sbin/mcelog --daemon --foreground
+polkitd      773  0.0  0.3 2579564 28384 ?       Ssl  16:32   0:01 /usr/lib/polkit-1/polkitd --no-debug
+root         774  0.0  0.1 451888  9468 ?        Ssl  16:32   0:00 /usr/libexec/power-profiles-daemon
+rtkit        775  0.0  0.0 153996  3456 ?        SNsl 16:32   0:00 /usr/libexec/rtkit-daemon
+root         776  0.0  0.1 525432  9528 ?        Ssl  16:32   0:00 /usr/libexec/accounts-daemon
+root         777  0.0  0.1 448272  8608 ?        Ssl  16:32   0:00 /usr/libexec/switcheroo-control
+root         782  0.0  0.1  21860 11764 ?        Ss   16:32   0:00 /usr/lib/systemd/systemd-logind
+root         784  0.0  0.2 395528 16072 ?        Ssl  16:32   0:00 /usr/libexec/udisks2/udisksd
+root         786  0.0  0.1 448768  8896 ?        Ssl  16:32   0:00 /usr/libexec/upowerd
+root         789  0.0  0.1 233516 10112 ?        Ss   16:32   0:00 /usr/bin/VGAuthService -s
+root         790  0.0  0.1 457432  9344 ?        Ssl  16:32   0:23 /usr/bin/vmtoolsd
+avahi        794  0.0  0.0  16464  2248 ?        S    16:32   0:00 avahi-daemon: chroot helper
+root         799  0.0  0.0   4732  2816 ?        SNs  16:32   0:00 /usr/sbin/alsactl -s -n 19 -c -E ALSA_CONFIG_PATH=/etc/als
+root         816  0.0  0.1 391336 12720 ?        Ssl  16:32   0:00 /usr/sbin/ModemManager
+root         819  0.0  0.5 351684 44540 ?        Ssl  16:32   0:01 /usr/bin/python3 -s /usr/sbin/firewalld --nofork --nopid
+root         933  0.0  0.2 476120 23120 ?        Ssl  16:32   0:00 /usr/sbin/NetworkManager --no-daemon
+root         958  0.0  0.1 248660 11008 ?        Ss   16:32   0:00 /usr/sbin/cupsd -l
+root         960  0.0  0.1  16616  9344 ?        Ss   16:32   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+root         973  0.0  0.0   4692  2432 ?        Ss   16:32   0:00 /usr/sbin/atd -f
+root         974  0.0  0.0 223944  3456 ?        Ss   16:32   0:00 /usr/sbin/crond -n
+root         977  0.0  0.1 453008 10956 ?        Ssl  16:32   0:00 /usr/sbin/gdm
+root        1089  0.0  0.1 164996 11644 ?        Ssl  16:32   0:01 /usr/sbin/rsyslogd -n
+root        1476  0.0  0.0  16372  6400 ?        Ss   16:32   0:00 /usr/sbin/wpa_supplicant -c /etc/wpa_supplicant/wpa_suppli
+colord      1808  0.0  0.1 530288 14104 ?        Ssl  16:32   0:00 /usr/libexec/colord
+root        1885  0.0  0.2 536392 17544 ?        Sl   16:33   0:00 gdm-session-worker [pam/gdm-password]
+admin       1897  0.0  0.1  24512 14744 ?        Ss   16:33   0:00 /usr/lib/systemd/systemd --user
+admin       1899  0.0  0.0  27876  7548 ?        S    16:33   0:00 (sd-pam)
+admin       1914  0.0  0.0 452964  7452 ?        Sl   16:33   0:00 /usr/bin/gnome-keyring-daemon --daemonize --login
+admin       1918  0.0  0.1 374144  7908 tty2     Ssl+ 16:33   0:00 /usr/libexec/gdm-wayland-session --register-session gnome-
+admin       1921  0.0  0.0  10564  4480 ?        Ss   16:33   0:00 /usr/bin/dbus-broker-launch --scope user
+admin       1923  0.0  0.0   6780  4352 ?        S    16:33   0:00 dbus-broker --log 4 --controller 9 --machine-id 6696a6471b
+admin       1925  0.0  0.2 513016 19360 tty2     Sl+  16:33   0:00 /usr/libexec/gnome-session-binary
+admin       1962  0.0  0.0 303672  7620 ?        Ssl  16:33   0:00 /usr/libexec/gnome-session-ctl --monitor
+admin       1964  0.0  0.2 734868 22648 ?        Ssl  16:33   0:00 /usr/libexec/gnome-session-binary --systemd-service --sess
+admin       1981  0.2  4.3 3572844 340988 ?      Rsl  16:33   1:17 /usr/bin/gnome-shell
+admin       1989  0.0  0.1 452572  9692 ?        Ssl  16:33   0:00 /usr/libexec/gvfsd
+admin       1994  0.0  0.1 379916  8512 ?        Sl   16:33   0:00 /usr/libexec/gvfsd-fuse /run/user/1000/gvfs -f
+admin       2001  0.0  0.0 308452  7808 ?        Ssl  16:33   0:00 /usr/libexec/at-spi-bus-launcher
+admin       2007  0.0  0.0  10436  4096 ?        S    16:33   0:00 /usr/bin/dbus-broker-launch --config-file=/usr/share/defau
+admin       2008  0.0  0.0   5008  2560 ?        S    16:33   0:00 dbus-broker --log 4 --controller 9 --machine-id 6696a6471b
+admin       2013  0.0  0.1 448088  9956 ?        Ssl  16:33   0:00 /usr/libexec/xdg-permission-store
+admin       2014  0.0  0.2 586364 20096 ?        Ssl  16:33   0:00 /usr/libexec/gnome-shell-calendar-server
+admin       2034  0.0  0.3 689320 31176 ?        Ssl  16:33   0:00 /usr/libexec/evolution-source-registry
+admin       2043  0.0  0.3 820300 25076 ?        Ssl  16:33   0:00 /usr/libexec/goa-daemon
+admin       2049  0.0  0.4 920244 33408 ?        Ssl  16:33   0:00 /usr/libexec/evolution-calendar-factory
+admin       2050  0.0  0.1 328880 15456 ?        S<sl 16:33   0:01 /usr/bin/pipewire
+admin       2051  0.0  0.2 546776 19072 ?        S<sl 16:33   0:00 /usr/bin/wireplumber
+admin       2052  0.0  0.1 321980 11672 ?        S<sl 16:33   0:00 /usr/bin/pipewire-pulse
+admin       2070  0.0  0.1 458724 12244 ?        Ssl  16:33   0:01 /usr/libexec/goa-identity-service
+root        2091  0.0  0.1 239092  8960 ?        Ss   16:33   0:02 /usr/libexec/sssd/sssd_kcm --uid 0 --gid 0 --logger=files
+admin       2093  0.0  0.0 155860  5504 ?        Ssl  16:33   0:00 /usr/libexec/dconf-service
+admin       2103  0.0  0.3 889580 30220 ?        Ssl  16:33   0:00 /usr/libexec/evolution-addressbook-factory
+admin       2104  0.0  0.1 527548 12516 ?        Ssl  16:33   0:00 /usr/libexec/gvfs-udisks2-volume-monitor
+admin       2111  0.0  0.1 448236  8400 ?        Ssl  16:33   0:00 /usr/libexec/gvfs-mtp-volume-monitor
+admin       2123  0.0  0.1 450188 11208 ?        Ssl  16:33   0:00 /usr/libexec/gvfs-gphoto2-volume-monitor
+admin       2136  0.0  0.1 448284 10444 ?        Ssl  16:33   0:00 /usr/libexec/gvfs-goa-volume-monitor
+admin       2146  0.0  0.3 2796512 26048 ?       Ssl  16:33   0:00 /usr/bin/gjs /usr/share/gnome-shell/org.gnome.Shell.Notifi
+admin       2148  0.0  0.0 161596  7424 ?        Ssl  16:33   0:00 /usr/libexec/at-spi2-registryd --use-gnome-session
+admin       2159  0.0  0.1 522120  8664 ?        Ssl  16:33   0:00 /usr/libexec/gsd-a11y-settings
+admin       2161  0.0  0.4 666736 33660 ?        Ssl  16:33   0:00 /usr/libexec/gsd-color
+admin       2162  0.0  0.2 595164 20960 ?        Ssl  16:33   0:00 /usr/libexec/gsd-datetime
+admin       2163  0.0  0.1 524488  9984 ?        Ssl  16:33   0:00 /usr/libexec/gsd-housekeeping
+admin       2165  0.0  0.3 665124 30432 ?        Ssl  16:33   0:00 /usr/libexec/gsd-keyboard
+admin       2166  0.0  0.4 735888 33492 ?        Ssl  16:33   0:00 /usr/libexec/gsd-media-keys
+admin       2167  0.0  0.4 666220 31852 ?        Ssl  16:33   0:00 /usr/libexec/gsd-power
+admin       2170  0.0  0.1 468080 15276 ?        Ssl  16:33   0:00 /usr/libexec/gsd-print-notifications
+admin       2172  0.0  0.1 669640 10776 ?        Ssl  16:33   0:00 /usr/libexec/gsd-rfkill
+admin       2174  0.0  0.1 448040  8148 ?        Ssl  16:33   0:00 /usr/libexec/gsd-screensaver-proxy
+admin       2178  0.0  0.1 678124 12596 ?        Ssl  16:33   0:00 /usr/libexec/gsd-sharing
+admin       2179  0.0  0.2 603404 15776 ?        Ssl  16:33   0:01 /usr/libexec/gsd-smartcard
+admin       2182  0.0  0.1 530540 11468 ?        Ssl  16:33   0:00 /usr/libexec/gsd-sound
+admin       2186  0.0  0.1 671464 11244 ?        Ssl  16:33   0:00 /usr/libexec/gsd-usb-protection
+admin       2190  0.0  0.3 665752 30952 ?        Ssl  16:33   0:00 /usr/libexec/gsd-wacom
+admin       2240  0.0  0.0 232036  7168 ?        Sl   16:33   0:00 /usr/libexec/gsd-disk-utility-notify
+admin       2244  0.0  4.6 1359500 366816 ?      Sl   16:33   0:09 /usr/bin/gnome-software --gapplication-service
+admin       2252  0.0  0.5 388088 40176 ?        Sl   16:33   0:22 /usr/bin/vmtoolsd -n vmusr --blockFd 3 --uinputFd 4
+admin       2254  0.0  0.5 843112 44828 ?        Sl   16:33   0:00 /usr/libexec/evolution-data-server/evolution-alarm-notify
+admin       2300  0.0  0.3 2796544 26164 ?       Ssl  16:33   0:00 /usr/bin/gjs /usr/share/gnome-shell/org.gnome.ScreenSaver
+admin       2306  0.0  0.2 599348 22084 ?        Sl   16:33   0:00 /usr/libexec/gsd-printer
+admin       2384  0.0  0.5 187856 46944 ?        S    16:33   0:00 /usr/bin/Xwayland :0 -rootless -noreset -accessx -core -au
+admin       2459  0.0  0.1 526584 11400 ?        Sl   16:33   0:04 ibus-daemon --panel disable -r --xim
+admin       2460  0.0  0.8 820996 64076 ?        Ssl  16:33   0:00 /usr/libexec/gsd-xsettings
+admin       2465  0.0  0.2 688768 19760 ?        Ssl  16:33   0:00 /usr/libexec/xdg-desktop-portal
+admin       2470  0.0  0.1 743784 10632 ?        Ssl  16:33   0:00 /usr/libexec/xdg-document-portal
+root        2475  0.0  0.0   2652  1664 ?        Ss   16:33   0:00 fusermount -o rw,nosuid,nodev,fsname=portal,auto_unmount,s
+admin       2480  0.0  0.8 1049996 62928 ?       Ssl  16:33   0:00 /usr/libexec/xdg-desktop-portal-gnome
+admin       2497  0.0  0.1 449076 11184 ?        Sl   16:33   0:00 /usr/libexec/ibus-dconf
+admin       2498  0.0  0.4 595684 33260 ?        Sl   16:33   0:02 /usr/libexec/ibus-extension-gtk3
+admin       2500  0.0  0.3 516724 30084 ?        Sl   16:33   0:00 /usr/libexec/ibus-x11 --kill-daemon
+admin       2501  0.0  0.1 449024  9188 ?        Ssl  16:33   0:00 /usr/libexec/ibus-portal
+admin       2536  0.0  0.1 375376  9416 ?        Sl   16:33   0:01 /usr/libexec/ibus-engine-simple
+admin       2537  0.0  0.3 591448 29556 ?        Ssl  16:33   0:00 /usr/libexec/xdg-desktop-portal-gtk
+root        2563  0.0  0.4 640032 31620 ?        Ssl  16:33   0:01 /usr/libexec/fwupd/fwupd
+admin       2726  0.0  0.1 374828  8188 ?        Ssl  16:33   0:00 /usr/libexec/gvfsd-metadata
+root        3288  0.0  0.0      0     0 ?        I<   18:57   0:00 [kworker/u513:1]
+admin       3423  0.0  0.7 774060 56644 ?        Ssl  19:05   0:08 /usr/libexec/gnome-terminal-server
+root        3798  0.0  0.0      0     0 ?        I    19:55   0:01 [kworker/u512:2-events_unbound]
+admin       3807  0.0  0.0 224112  5632 pts/1    Ss   19:56   0:00 bash
+root        3859  0.0  0.1 235980  9324 pts/1    S    19:59   0:00 su -
+root        3870  0.0  0.0 224092  5504 pts/1    S    19:59   0:00 -bash
+root        3911  0.0  0.1 235636  7936 pts/1    S    19:59   0:00 su - admin
+admin       3912  0.0  0.0 224092  5504 pts/1    S    19:59   0:00 -bash
+root        4045  0.0  0.0      0     0 ?        I    20:54   0:01 [kworker/0:3-events]
+root        4142  0.0  0.1 235720  8448 pts/1    S    20:59   0:00 su admin
+admin       4151  0.0  0.0 224112  5504 pts/1    S    20:59   0:00 bash
+root        4175  0.0  0.1 235720  8448 pts/1    S    21:00   0:00 su - admin
+admin       4184  0.0  0.0 224092  5504 pts/1    S    21:00   0:00 -bash
+root        4567  0.0  0.0      0     0 ?        I    21:40   0:00 [kworker/u512:1-events_unbound]
+root        4661  0.0  0.0      0     0 ?        I    23:39   0:00 [kworker/u512:0-events_unbound]
+root        4709  0.0  0.0      0     0 ?        I    23:43   0:00 [kworker/0:1-ata_sff]
+root        4720  0.0  0.0      0     0 ?        I    23:48   0:00 [kworker/0:2-ata_sff]
+admin       4728  0.0  0.0 225368  3456 pts/1    R+   23:52   0:00 ps aux
+
+3. Start a different process in the background. Find out the status of the background process using the PID of the same.
+[admin@hostname01 ~]$ sleep 100 &
+[1] 4730
+[admin@hostname01 ~]$ jobs -1
+-bash: jobs: -1: invalid option
+jobs: usage: jobs [-lnprs] [jobspec ...] or jobs -x command [args]
+[admin@hostname01 ~]$ jobs
+[1]+  Running                 sleep 100 &
+[admin@hostname01 ~]$ ps -p <PID>
+-bash: syntax error near unexpected token `newline'
+[1]+  Done                    sleep 100
+
+[admin@hostname01 ~]$ firefox &
+[1] 4783
+[admin@hostname01 ~]$ Error: no DISPLAY environment variable specified
+
+[1]+  Exit 1                  firefox
+
+4. Run a job in background
+[admin@hostname01 ~]$ firefox &
+[1] 4817
+[admin@hostname01 ~]$ Error: no DISPLAY environment variable specified
+
+[1]+  Exit 1                  firefox
+
+5. Bring a last background job in fore ground
+[admin@hostname01 ~]$ fg
+-bash: fg: current: no such job
+
+6. Run 3 jobs in background and bring first job in foreground
+[admin@hostname01 ~]$ sleep 100&
+[1] 4835
+
+7. Stop current job - cntrl + z
+
+8. Start stopped job
+[admin@hostname01 ~]$ bg
+-bash: bg: job 1 already in background
+[admin@hostname01 ~]$ bg
+-bash: bg: job 1 already in background
+[admin@hostname01 ~]$ bg
+-bash: bg: job 1 already in background
+
+10. Kill last job
+[admin@hostname01 ~]$ kill %1
+-bash: kill: %1: no such job
+[admin@hostname01 ~]$ kill %sleep 100
+-bash: kill: %sleep: no such job
+-bash: kill: (100) - No such process
+
+11. Kill your shell using process id
+[admin@hostname01 ~]$ kill -9 $$
+Killed
+
+12. Execute a ls command by setting priority as -10 using nice comman
+[admin@hostname01 ~]$ -n -10 ls
+bash: -n: command not found...
+Failed to search for file: cannot update repo 'extras-common': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-extras-sig-extras-common-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]; Last error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-extras-sig-extras-common-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+[admin@hostname01 ~]$ nice -n -10 ls
+nice: cannot set niceness: Permission denied
+demo  Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos
+
+13. Display a date on every hour using cron tab
+[admin@hostname01 ~]$ crontab -e
+no crontab for admin - using an empty one
+crontab: no changes made to crontab
+[admin@hostname01 ~]$ crontab -1
+crontab: invalid option -- '1'
+crontab: usage error: unrecognized option
+Usage:
+ crontab [options] file
+ crontab [options]
+ crontab -n [hostname]
+
+[admin@hostname01 ~]$ crontab -e
+no crontab for admin - using an empty one
+crontab: no changes made to crontab
+[admin@hostname01 ~]$ crontab -e
