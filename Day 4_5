@@ -89,6 +89,254 @@ stat: cannot statx 'min_file': No such file or directory
 4 Write a script which when executed checks out whether it is a working day or not?
 
 (Note: Working day Mon-Fri)
+#!/bin/bash
+
+day=$(date +%u)
+
+if [ $day -ge 1 ] && [ $day -le 5 ]; then
+        echo "It is a working day."
+     else
+        echo"It is not a working day."
+fi
+
+[admin@hostname01]$ chmod +x check_working_day.sh 
+[admin@hostname01]$ ./check_working_day.sh 
+It is a working day.
+
+
+5	Write a script that accepts a member into HP health club, if the weight of the person is withing the range of 30-250 Kgs.
+#!/bin/bash
+
+accept_member(){
+        if [ $1 -ge 30 ] && [ $1 -le 250 ]; then
+                echo "Welcome to HP Health Club!"
+        else
+                echo"Sorry, your weight is not within the allowed range."
+        fi
+}
+
+read -p "Enter your weight in kg: " weight
+
+accept_member $weight
+
+[admin@hostname01]$ chmod +x health.sh 
+[admin@hostname01]$ ./health.sh
+Enter your weight in kg: 43 
+Welcome to HP Health Club!
+
+6	Write a shell script that greets the user with an appropriate message depending on the system time.
+#!/bin/bash
+
+hour=$(date +%H)
+
+if [ $hour -ge 5 ] && [ $hour -lt 12 ]; then
+        echo "Good morning"
+elif [ $hour -ge 12 ] && [ $hour -lt 17 ]; then
+        echo "Good afternoon"
+elif [ $hour -ge 17 ] && [ $hour -lt 21 ]; then
+        echo "Good evening"
+else
+        echo "Good night"
+fi
+
+[admin@hostname01]$ nano greeting.sh
+[admin@hostname01]$ chmod +x greeting.sh
+[admin@hostname01]$ ./greeting.sh
+Good evening
+
+7	A data file file has some student records including rollno, names and subject marks. The fields are separated by a “:”. Write a shell script that accepts roll number from the user, searches it in the file and if the roll number is present - allows the user to modify name and marks in 3 subjects. 
+If the roll number is not present, display a message “Roll No Not Found”. Allow the user to modify one record at a time.
+#!/bin/bash
+
+data_file="students.txt"
+
+if [[ ! -f $data_file ]]; then
+        echo "Data file not found"
+        exit 1
+fi
+
+echo -n "Enter roll number: "
+read roll_no
+
+record=$(grep "^$roll_no:" $data_file)
+
+if [[ -z $record ]]; then
+        echo "Roll number $roll_no not found"
+        exit 1
+
+else
+        echo "Record found: $record"
+        current_name=$(echo $record | cut -d':' -f2)
+        current_marks=$(echo $record | cut -d':' -f3)
+	  echo -n "Enter new name"
+        read new_name
+
+        echo -n "Enter marks for subject 1"
+        read marks1
+
+        echo -n "Enter marks for subject 2"
+        read marks2
+
+        echo -n "Enter marks for subject 3"
+        read marks3
+
+        new_record="$roll_no:$new_name:$marks1:$marks2:$marks3"
+
+        sed -i "s/^$record\$/$new_record/" $data_file
+
+        echo "Record updated"
+fi
+
+8	Modify program 7 to accept the RollNo from the command line.
+#!/bin/bash
+data_file="students.txt"
+if [ -z "$1" ]; then
+echo "Usage: $0 <rollno>"
+exit 1
+fi
+
+rollno=$1
+record=$(grep "^$rollno:" "$data_file")
+if [ -z "$record" ]; then
+echo "Roll No Not Found"
+else
+echo "Current record: $record"
+
+echo "Enter the new name:"
+read new_name
+echo "Enter the new marks for subject 1:"
+read new_marks1
+echo "Enter the new marks for subject 2:"
+read new_marks2
+echo "Enter the new marks for subject 3:"
+read new_marks3
+
+new_record="$rollno:$new_name:$new_marks1:$new_marks2:$new_marks3"
+sed -i "s/^$rollno:.*/$new_record/" "$data_file"
+echo "Record updated successfully."
+fi
+
+9	Modify the program 7 to accept the RollNo and display the record and ask for delete confirmation. Once confirmed delete the record and update the data file.
+#!/bin/bash
+
+data_file="students.txt"
+
+if [ -z "$1" ]; then
+echo "Usage: $0 <rollno>"
+exit 1
+fi
+
+rollno=$1
+record=$(grep "^$rollno:" "$data_file")
+
+if [ -z "$record" ]; then
+echo "Roll No Not Found"
+else
+echo "Current record: $record"
+
+echo "Do you want to delete this record? (yes/no)"
+read confirmation
+
+if [ "$confirmation" = "yes" ]; then
+sed -i "/^$rollno:/d" "$data_file"
+echo "Record deleted successfully."
+else
+echo "Deletion cancelled."
+fi
+
+10	Write a script that takes a command line argument and reports on its file type (regular file, directory file, etc.). For more than one argument generate error message.  
+#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+echo "Usage: $0 <filename>"
+exit 1
+fi
+
+filename=$
+if [ ! -e "$filename" ]; then
+echo "File does not exist."
+exit 1
+fi
+
+if [ -f "$filename" ]; then
+echo "$filename is a regular file."
+elif [ -d "$filename" ]; then
+echo "$filename is a directory."
+elif [ -L "$filename" ]; then
+echo "$filename is a symbolic link."
+else
+echo "$filename is of another file type."
+fi
+
+11	Add some student records in the “student” file manually. The fields to be considered are “RollNo”, “Name”, “Marks_Hindi”, “Marks_Maths”, “Marks_Physics”.
+ Write a script which does the following 
+a	If the roll number already exists, then store the record and the following message 
+“roll number exists” in a log file “log1”.
+b	If the marks in the subjects is not in the range of 1 – 99 then store such a record followed by a message “marks out of range” in “log1”
+c	If the data is valid, the calculate total, percentage, grade and display on the terminal
+#!/bin/bash
+
+data_file="student"
+log_file="log1"
+
+calculate_grade() {
+local percentage=$1
+if (( $(echo "$percentage >= 90" | bc -l) )); then
+echo "A"
+elif (( $(echo "$percentage >= 80" | bc -l) )); then
+echo "B"
+elif (( $(echo "$percentage >= 70" | bc -l) )); then
+echo "C"
+elif (( $(echo "$percentage >= 60" | bc -l) )); then
+echo "D"
+else
+echo "F"
+fi
+}
+
+
+echo "Enter Roll Number:"
+read rollno
+echo "Enter Name:"
+read name
+echo "Enter Marks in Hindi:"
+read marks_hindi
+echo "Enter Marks in Maths:"
+read marks_maths
+echo "Enter Marks in Physics:"
+read marks_physics
+
+if grep -q "^$rollno:" "$data_file"; then
+echo "$rollno:$name:$marks_hindi:$marks_maths:$marks_physics" >> "$log_file"
+echo "roll number exists" >> "$log_file"
+echo "Roll number exists. Logged in $log_file."
+exit 1
+fi
+
+if [ "$marks_hindi" -lt 1 ] || [ "$marks_hindi" -gt 99 ] || [ "$marks_maths" -lt 1 ] || 
+[ "$marks_maths" -gt 99 ] || [ "$marks_physics" -lt 1 ] || [ "$marks_physics" -gt 99 ]; then
+echo "$rollno:$name:$marks_hindi:$marks_maths:$marks_physics" >> "$log_file"
+echo "marks out of range" >> "$log_file"
+echo "Marks out of range. Logged in $log_file."
+exit 1
+fi
+
+total=$((marks_hindi + marks_maths + marks_physics))
+percentage=$(echo "scale=2; $total / 3" | bc)
+grade=$(calculate_grade "$percentage")
+
+echo "Total Marks: $total"
+echo "Percentage: $percentage%"
+echo "Grade: $grade"
+
+echo "$rollno:$name:$marks_hindi:$marks_maths:$marks_physics:$total:$percentage:$grade" >> "$data_file"
+
+
+
+
+
+
+
 
 
 
