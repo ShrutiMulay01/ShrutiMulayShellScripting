@@ -1,0 +1,98 @@
+1 Write a shell script which will generate the O/P as follows
+*
+**
+***
+****
+[admin@hostname01 ~]$ touch triangle.sh
+[admin@hostname01 ~]$ nano triangle.sh
+[admin@hostname01 ~]$ #!/bin/bash
+
+rows=4
+for((i=1;i<=rows;i++));do
+for((j=1;j<=i;j++));do
+echo -n "*"
+done
+echo " "
+done
+[admin@hostname01 ~]$ chmod +x triangle.sh
+[admin@hostname01 ~]$ ./triangle.sh
+
+
+2 Accept the first name, middle name, and last name of a person in variables fname, mname and lname respectively. Greet the person (take his full name) using appropriate message.
+
+!/bin/bash
+
+echo "Enter first name:"
+read fname
+
+echo "Enter middle name:"
+read mname
+
+echo "Enter last name:"
+read lname
+
+echo "Hello, $fname $mname $lname! Welcome to Shell"
+
+[admin@hostname01 ~]$ nano names.sh
+[admin@hostname01 ~]$ vim names.sh
+[admin@hostname01 ~]$ chmod +x names.sh
+[admin@hostname01 ~]$ ./names.sh
+Enter first name:
+Shruti
+Enter middle name:
+Unmesh
+Enter last name:
+Mulay
+Hello, Shruti Unmesh Mulay! Welcome to Shell
+[admin@hostname01 ~]$ 
+
+
+3 Display the name of files in the current directory along with the names of files with maximum & minimum size. The file size is considered in bytes.
+#!/bin/bash
+
+echo "Files in the current directory:"
+
+ls -lh | awk '{print $9,$5}'
+
+max_file=$(ls -S | head -1)
+min_file=$(ls -S | tail -1)
+
+max_size=$(stat -c%s "max_file")
+min_size=$(stat -c%s "min_file")
+
+echo -e"\n Largest File: $max_file ($max_size bytes)"
+echo " Smallest File: $min_file ($min_size bytes)"
+
+[admin@hostname01 ~]$ nano sizes.sh
+[admin@hostname01 ~]$ chmod +x sizes.sh
+[admin@hostname01 ~]$ ./sizes.sh
+Files in the current directory:
+ 
+demo 21
+Desktop 6
+Documents 6
+Downloads 6
+Music 6
+names.sh 179
+Pictures 6
+Public 6
+sizes.sh 314
+Templates 6
+triangle.sh 87
+Videos 6
+stat: cannot statx 'max_file': No such file or directory
+stat: cannot statx 'min_file': No such file or directory
+-e\n Largest File: sizes.sh ( bytes)
+ Smallest File: Videos ( bytes)
+
+
+4 Write a script which when executed checks out whether it is a working day or not?
+
+(Note: Working day Mon-Fri)
+
+
+
+
+
+
+
